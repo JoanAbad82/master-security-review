@@ -44,7 +44,11 @@ Contents:
 
 SHA256: `375389CAA3E0EFAF48CEB14C031027DE800E2556FDBE9B7E06073CD8FFB0CF4A`
 
-The public download path will be added upon GitHub release publication.
+Download: https://github.com/JoanAbad82/master-security-review/releases/download/v1.0.0/MasterSecurityReview-v1.0.0.zip
+
+SHA256 verification: https://github.com/JoanAbad82/master-security-review/releases/download/v1.0.0/MasterSecurityReview-v1.0.0.sha256.txt
+
+Release page: https://github.com/JoanAbad82/master-security-review/releases/tag/v1.0.0
 
 Compilation from source is documented in `docs/COMPILE.md`.
 
@@ -129,7 +133,7 @@ Before the public release is finalized, the repository should document:
 * whether administrator privileges are recommended or required for specific checks;
 * any known limitations.
 
-Compilation from source is documented in docs/COMPILE.md. The current V1 artifact and its SHA256 are documented above. The public download path will be added upon GitHub release publication.
+Compilation from source is documented in docs/COMPILE.md. The current V1 artifact, SHA256, and download links are documented above in the Releases section.
 
 ## Project status
 

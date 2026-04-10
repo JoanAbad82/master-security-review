@@ -71,7 +71,7 @@ Official releases should clearly state:
 
 Always verify downloaded releases against the integrity hashes published in the official release notes.
 
-For V1 releases: Binaries are not digitally signed. Integrity verification should be performed using the SHA256 hash published in release notes. Current V1 artifact SHA256: `375389CAA3E0EFAF48CEB14C031027DE800E2556FDBE9B7E06073CD8FFB0CF4A`. The public download path will be added upon GitHub release publication.
+For V1 releases: Binaries are not digitally signed. Integrity verification should be performed using the SHA256 hash. Current V1 artifact SHA256: `375389CAA3E0EFAF48CEB14C031027DE800E2556FDBE9B7E06073CD8FFB0CF4A`. See https://github.com/JoanAbad82/master-security-review/releases/tag/v1.0.0 for release details and SHA256 file at https://github.com/JoanAbad82/master-security-review/releases/download/v1.0.0/MasterSecurityReview-v1.0.0.sha256.txt
 
 ## Scope note
 
