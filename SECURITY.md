@@ -71,6 +71,8 @@ Official releases should clearly state:
 
 Always verify downloaded releases against the integrity hashes published in the official release notes.
 
+For V1 releases: Binaries are not digitally signed. Integrity verification should be performed using the SHA256 hash published in release notes. Current V1 artifact SHA256: `375389CAA3E0EFAF48CEB14C031027DE800E2556FDBE9B7E06073CD8FFB0CF4A`. The public download path will be added upon GitHub release publication.
+
 ## Scope note
 
 This policy applies to the project code, official release artifacts, and materially relevant dependency vulnerabilities affecting those official artifacts.

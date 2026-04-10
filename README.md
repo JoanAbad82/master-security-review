@@ -33,19 +33,20 @@ It is intentionally **not** positioned as:
 - a real-time monitoring product;
 - a full forensic investigation toolkit.
 
-## Quick start status
+## Releases
 
-Public V1 packaging details are still being finalized in this preparation pack.
+Current V1 release artifact: `MasterSecurityReview-v1.0.0.zip`
 
-**Before the repository is made public, this README must contain the exact:**
+Contents:
 
-- release download path;
-- official Windows binary name;
-- local execution path from source;
-- build path or packaging instructions;
-- integrity verification location for published hashes.
+- `MasterSecurityReviewLauncher.exe`
+- `MasterSecurityReviewLauncher.exe.config`
 
-Until those details are frozen, this preparation README should not be treated as final publication text.
+SHA256: `375389CAA3E0EFAF48CEB14C031027DE800E2556FDBE9B7E06073CD8FFB0CF4A`
+
+The public download path will be added upon GitHub release publication.
+
+Compilation from source is documented in `docs/COMPILE.md`.
 
 ## Typical review scope
 
@@ -128,7 +129,7 @@ Before the public release is finalized, the repository should document:
 * whether administrator privileges are recommended or required for specific checks;
 * any known limitations.
 
-Compilation from source is documented in docs/COMPILE.md. The public release download path, the official public binary, and published hashes are still pending.
+Compilation from source is documented in docs/COMPILE.md. The current V1 artifact and its SHA256 are documented above. The public download path will be added upon GitHub release publication.
 
 ## Project status
 
