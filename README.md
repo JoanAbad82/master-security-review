@@ -128,6 +128,8 @@ Before the public release is finalized, the repository should document:
 * whether administrator privileges are recommended or required for specific checks;
 * any known limitations.
 
+Compilation from source is documented in docs/COMPILE.md. The public release download path, the official public binary, and published hashes are still pending.
+
 ## Project status
 
 V1 is being prepared as:
