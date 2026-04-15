@@ -167,6 +167,15 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 If you believe you have found a vulnerability, please read [SECURITY.md](SECURITY.md) before reporting it publicly.
 
+## Code signing policy
+
+Free code signing provided by SignPath.io, certificate by SignPath Foundation
+
+- Committers and reviewers: Joan Abad Batalla (GitHub: JoanAbad82)
+- Approvers: Joan Abad Batalla
+
+This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it.
+
 ## Code of Conduct
 
 This project adopts the community rules described in [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
