@@ -4,7 +4,7 @@ Thanks for helping keep Master Security Review safe and trustworthy.
 
 ## Supported versions
 
-During the initial public stage, only the latest published **V1.x** release should be assumed to be actively supported for security reporting and fixes unless the release notes explicitly state otherwise.
+Only the latest published **V1.x** release should be assumed to be actively supported for security reporting and fixes unless the release notes explicitly state otherwise.
 
 | Version line | Supported |
 | --- | --- |
@@ -41,7 +41,7 @@ The project aims to provide:
 
 ## Encrypted reporting
 
-PGP support is not yet defined in this V1 preparation pack. Until a public key is explicitly published by the project, plain email should be assumed to be the available reporting channel.
+PGP support is not currently published for this project. Until a public key is explicitly provided, plain email should be assumed to be the available reporting channel.
 
 ## Bug bounty
 
