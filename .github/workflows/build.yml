@@ -1,0 +1,117 @@
+name: build-reproducibility
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: msr-build-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-build:
+    name: Release build and reproducibility
+    runs-on: windows-2022
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Record toolchain
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} "Microsoft Visual Studio\Installer\vswhere.exe"
+          if (-not (Test-Path $vswhere)) {
+            throw "vswhere.exe was not found on the runner."
+          }
+
+          $msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1
+          if (-not $msbuild) {
+            throw "MSBuild was not found."
+          }
+
+          "MSBUILD_PATH=$msbuild" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+          Write-Host "Runner image: windows-2022"
+          Write-Host "MSBuild: $msbuild"
+          & $msbuild -version
+
+          $framework = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" -ErrorAction Stop
+          Write-Host ".NET Framework 4.x Release registry value: $($framework.Release)"
+
+      - name: Build Release AnyCPU twice and compare hashes
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $project = "src\MasterSecurityReviewLauncher\MasterSecurityReviewLauncher\MasterSecurityReviewLauncher.csproj"
+          $outputDir = "src\MasterSecurityReviewLauncher\MasterSecurityReviewLauncher\bin\Release"
+          $exe = Join-Path $outputDir "MasterSecurityReviewLauncher.exe"
+          $config = Join-Path $outputDir "MasterSecurityReviewLauncher.exe.config"
+
+          function Invoke-ReleaseBuild {
+            param([string]$Label)
+
+            Write-Host "=== $Label ==="
+            & $env:MSBUILD_PATH $project /t:Rebuild /p:Configuration=Release /p:Platform=AnyCPU /v:minimal | Out-Host
+            if ($LASTEXITCODE -ne 0) {
+              throw "$Label failed with exit code $LASTEXITCODE."
+            }
+
+            foreach ($required in @($exe, $config)) {
+              if (-not (Test-Path $required)) {
+                throw "Required output missing after $Label: $required"
+              }
+            }
+
+            Write-Host "Release output:"
+            Get-ChildItem $outputDir -File | Select-Object Name, Length | Format-Table -AutoSize | Out-Host
+
+            [pscustomobject]@{
+              ExeHash = (Get-FileHash $exe -Algorithm SHA256).Hash
+              ConfigHash = (Get-FileHash $config -Algorithm SHA256).Hash
+            }
+          }
+
+          $first = Invoke-ReleaseBuild -Label "Build 1"
+          $second = Invoke-ReleaseBuild -Label "Build 2"
+
+          Write-Host "Build 1 EXE SHA256:    $($first.ExeHash)"
+          Write-Host "Build 2 EXE SHA256:    $($second.ExeHash)"
+          Write-Host "Build 1 config SHA256: $($first.ConfigHash)"
+          Write-Host "Build 2 config SHA256: $($second.ConfigHash)"
+
+          if ($first.ExeHash -ne $second.ExeHash) {
+            throw "Release EXE is not deterministic across consecutive rebuilds on the same runner/toolchain."
+          }
+
+          if ($first.ConfigHash -ne $second.ConfigHash) {
+            throw "Release config is not deterministic across consecutive rebuilds on the same runner/toolchain."
+          }
+
+          Add-Content $env:GITHUB_STEP_SUMMARY "## Build reproducibility"
+          Add-Content $env:GITHUB_STEP_SUMMARY ""
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Configuration: `Release|AnyCPU`"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Required outputs: present"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- EXE deterministic across two rebuilds: **yes**"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Config deterministic across two rebuilds: **yes**"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- EXE SHA256: `$($second.ExeHash)`"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Config SHA256: `$($second.ConfigHash)`"
+
+      - name: Confirm build does not modify tracked files
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $changes = git status --porcelain
+          if ($changes) {
+            Write-Host $changes
+            throw "Build modified tracked files or produced unexpectedly tracked output."
+          }
+          Write-Host "Working tree remains clean after build."
