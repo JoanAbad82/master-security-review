@@ -19,19 +19,13 @@ No separate CLA is required for V1.
 
 By submitting a contribution, you agree that your contribution will be licensed under the same license as this project, unless explicitly stated otherwise.
 
-## Development setup status
+## Development setup
 
-Public V1 packaging and build details are still being finalized.
+The first public release, **v1.0.0**, is available from GitHub Releases. Compilation from source is documented in [docs/COMPILE.md](docs/COMPILE.md).
 
-Before the first public release is published, the repository should document:
+Contributors should review the current release notes and repository documentation for packaging details, execution requirements, privilege expectations, and known limitations before changing build or release behavior.
 
-- supported operating system and runtime requirements;
-- local development setup;
-- local execution path for testing;
-- packaging and build steps;
-- known limitations that affect contributors.
-
-Until those instructions are finalized, please open an issue before spending significant time on larger code or packaging changes.
+Please open an issue before spending significant time on larger code, packaging, or scope changes.
 
 ## What is welcome
 

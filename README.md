@@ -3,6 +3,8 @@
 
 Master Security Review is an open source Windows audit utility designed to help users run a fast, practical first-pass security review and generate a report that is useful, shareable, and easier to review safely.
 
+**Current release: [v1.0.0](https://github.com/JoanAbad82/master-security-review/releases/tag/v1.0.0)** · [Download ZIP](https://github.com/JoanAbad82/master-security-review/releases/download/v1.0.0/MasterSecurityReview-v1.0.0.zip) · [SHA256](https://github.com/JoanAbad82/master-security-review/releases/download/v1.0.0/MasterSecurityReview-v1.0.0.sha256.txt) · [Build from source](docs/COMPILE.md) · [Security](SECURITY.md) · [MPL-2.0](LICENSE)
+
 It is meant to **complement** your antivirus and your own judgment. It is **not** an antivirus, EDR, forensic suite, or a guarantee that a system is clean.
 
 ## Why this project exists
@@ -123,26 +125,20 @@ Always compare the resulting hash with the value published in the official relea
 
 ## System and execution notes
 
-This project targets Windows. Exact runtime and packaging details may evolve during the V1 public release process and will be documented per release.
+This project targets Windows. Release-specific packaging, execution requirements, privilege expectations, and known limitations should be documented in the release notes and repository documentation.
 
-Before the public release is finalized, the repository should document:
-
-* supported Windows versions;
-* packaging model;
-* execution requirements;
-* whether administrator privileges are recommended or required for specific checks;
-* any known limitations.
-
-Compilation from source is documented in docs/COMPILE.md. The current V1 artifact, SHA256, and download links are documented above in the Releases section.
+Compilation from source is documented in [docs/COMPILE.md](docs/COMPILE.md). The current V1 artifact, SHA256, and download links are documented above in the Releases section.
 
 ## Project status
 
-V1 is being prepared as:
+**v1.0.0 is the first public V1 release.** The repository provides:
 
-* a public repository;
-* a free official download;
-* an MPL-2.0 licensed project;
-* a release workflow with verifiable published artifacts.
+* public source code;
+* a free packaged download;
+* MPL-2.0 licensing;
+* a published SHA256 file and matching release artifact digest for integrity verification.
+
+The v1.0.0 binary is not digitally signed; verify the downloaded ZIP against the published SHA256 before use.
 
 ## Roadmap philosophy
 
