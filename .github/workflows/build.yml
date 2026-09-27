@@ -67,7 +67,7 @@ jobs:
 
             foreach ($required in @($exe, $config)) {
               if (-not (Test-Path $required)) {
-                throw "Required output missing after $Label: $required"
+                throw "Required output missing after ${Label}: $required"
               }
             }
 
@@ -98,12 +98,12 @@ jobs:
 
           Add-Content $env:GITHUB_STEP_SUMMARY "## Build reproducibility"
           Add-Content $env:GITHUB_STEP_SUMMARY ""
-          Add-Content $env:GITHUB_STEP_SUMMARY "- Configuration: `Release|AnyCPU`"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Configuration: Release|AnyCPU"
           Add-Content $env:GITHUB_STEP_SUMMARY "- Required outputs: present"
           Add-Content $env:GITHUB_STEP_SUMMARY "- EXE deterministic across two rebuilds: **yes**"
           Add-Content $env:GITHUB_STEP_SUMMARY "- Config deterministic across two rebuilds: **yes**"
-          Add-Content $env:GITHUB_STEP_SUMMARY "- EXE SHA256: `$($second.ExeHash)`"
-          Add-Content $env:GITHUB_STEP_SUMMARY "- Config SHA256: `$($second.ConfigHash)`"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- EXE SHA256: $($second.ExeHash)"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Config SHA256: $($second.ConfigHash)"
 
       - name: Confirm build does not modify tracked files
         shell: pwsh
