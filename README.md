@@ -3,7 +3,7 @@
 
 Master Security Review is an open source Windows audit utility designed to help users run a fast, practical first-pass security review and generate a report that is useful, shareable, and easier to review safely.
 
-**Current release: [v1.0.0](https://github.com/JoanAbad82/master-security-review/releases/tag/v1.0.0)** · [Download ZIP](https://github.com/JoanAbad82/master-security-review/releases/download/v1.0.0/MasterSecurityReview-v1.0.0.zip) · [SHA256](https://github.com/JoanAbad82/master-security-review/releases/download/v1.0.0/MasterSecurityReview-v1.0.0.sha256.txt) · [Build from source](docs/COMPILE.md) · [Security](SECURITY.md) · [MPL-2.0](LICENSE)
+**Current release: [v1.0.0](https://github.com/JoanAbad82/master-security-review/releases/tag/v1.0.0)** · [Download ZIP](https://github.com/JoanAbad82/master-security-review/releases/download/v1.0.0/MasterSecurityReview-v1.0.0.zip) · [SHA256](https://github.com/JoanAbad82/master-security-review/releases/download/v1.0.0/MasterSecurityReview-v1.0.0.sha256.txt) · [Architecture](docs/ARCHITECTURE.md) · [Build from source](docs/COMPILE.md) · [Security](SECURITY.md) · [MPL-2.0](LICENSE)
 
 It is meant to **complement** your antivirus and your own judgment. It is **not** an antivirus, EDR, forensic suite, or a guarantee that a system is clean.
 
