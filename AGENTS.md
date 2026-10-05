@@ -4,6 +4,8 @@
 
 Master Security Review is a Windows first-pass security audit utility. The public launcher is a C# WinForms application targeting .NET Framework 4.8 and executes an embedded PowerShell audit script to produce a structured local report.
 
+`PROJECT_STATUS.json` provides a compact machine-readable snapshot of release state, architecture, validation and interaction boundaries.
+
 ## Canonical sources
 
 1. `README.md` — public scope, release positioning, limitations, and integrity information.
