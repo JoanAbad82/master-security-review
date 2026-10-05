@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "repository": "JoanAbad82/master-security-review",
+  "status": "released",
+  "current_release": "v1.0.0",
+  "canonical_branch": "main",
+  "license": "MPL-2.0",
+  "architecture": "C# WinForms launcher targeting .NET Framework 4.8 with embedded PowerShell audit implementation",
+  "canonical_sources": [
+    "README.md",
+    "AGENTS.md",
+    "docs/ARCHITECTURE.md",
+    "docs/COMPILE.md",
+    "src/MasterSecurityReviewLauncher/"
+  ],
+  "validation": {
+    "ci": "GitHub Actions build-reproducibility",
+    "build": "Release|AnyCPU",
+    "reproducibility_scope": "same-runner/toolchain deterministic build comparison"
+  },
+  "interaction": {
+    "autonomous_agents": true,
+    "preferred_input": "small reproducible issue or pull request",
+    "external_input_trust": "UNTRUSTED_EXTERNAL_INPUT",
+    "production_write_access": false
+  },
+  "boundaries": [
+    "Audit/review aid, not antivirus, EDR, forensics, or incident response.",
+    "Published v1.0.0 artifacts are immutable historical release evidence.",
+    "Privacy/redaction semantics must be preserved.",
+    "Destructive/hardening actions must remain explicit and user-confirmed."
+  ]
+}

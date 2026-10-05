@@ -35,6 +35,10 @@ It is intentionally **not** positioned as:
 - a real-time monitoring product;
 - a full forensic investigation toolkit.
 
+## Machine-readable status
+
+`PROJECT_STATUS.json` summarizes current release state, architecture, canonical sources, validation scope and interaction boundaries for agents and retrieval systems.
+
 ## Releases
 
 Current V1 release artifact: `MasterSecurityReview-v1.0.0.zip`
