@@ -79,7 +79,7 @@ jobs:
             src/MasterSecurityReviewLauncher/MasterSecurityReviewLauncher/bin/Release/MasterSecurityReviewLauncher.exe.config
 
       - name: Upload attested build outputs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: master-security-review-attested-build
           path: |
