@@ -1,4 +1,7 @@
 # Master Security Review
+
+[![Build](https://github.com/JoanAbad82/master-security-review/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/JoanAbad82/master-security-review/actions/workflows/build.yml)
+
 ### Quick Windows Audit Tool
 
 Master Security Review is an open source Windows audit utility designed to help users run a fast, practical first-pass security review and generate a report that is useful, shareable, and easier to review safely.
