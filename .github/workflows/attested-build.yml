@@ -1,0 +1,97 @@
+name: attested-build-provenance
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+jobs:
+  attested-build:
+    runs-on: windows-2022
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Locate MSBuild
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} "Microsoft Visual Studio\Installer\vswhere.exe"
+          if (-not (Test-Path $vswhere)) {
+            throw "vswhere.exe was not found on the runner."
+          }
+          $msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1
+          if (-not $msbuild) {
+            throw "MSBuild was not found."
+          }
+          "MSBUILD_PATH=$msbuild" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Build twice and verify reproducibility
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $project = "src\MasterSecurityReviewLauncher\MasterSecurityReviewLauncher\MasterSecurityReviewLauncher.csproj"
+          $outputDir = "src\MasterSecurityReviewLauncher\MasterSecurityReviewLauncher\bin\Release"
+          $exe = Join-Path $outputDir "MasterSecurityReviewLauncher.exe"
+          $config = Join-Path $outputDir "MasterSecurityReviewLauncher.exe.config"
+
+          function Invoke-ReleaseBuild {
+            & $env:MSBUILD_PATH $project /t:Rebuild /p:Configuration=Release /p:Platform=AnyCPU /v:minimal | Out-Host
+            if ($LASTEXITCODE -ne 0) {
+              throw "Release build failed with exit code $LASTEXITCODE."
+            }
+            foreach ($required in @($exe, $config)) {
+              if (-not (Test-Path $required)) {
+                throw "Required output missing: $required"
+              }
+            }
+            return [pscustomobject]@{
+              ExeHash = (Get-FileHash $exe -Algorithm SHA256).Hash
+              ConfigHash = (Get-FileHash $config -Algorithm SHA256).Hash
+            }
+          }
+
+          $first = Invoke-ReleaseBuild
+          $second = Invoke-ReleaseBuild
+          if ($first.ExeHash -ne $second.ExeHash) {
+            throw "Release EXE is not reproducible across consecutive builds."
+          }
+          if ($first.ConfigHash -ne $second.ConfigHash) {
+            throw "Release config is not reproducible across consecutive builds."
+          }
+
+          Add-Content $env:GITHUB_STEP_SUMMARY "## Attested reproducible build"
+          Add-Content $env:GITHUB_STEP_SUMMARY ""
+          Add-Content $env:GITHUB_STEP_SUMMARY "- EXE SHA256: $($second.ExeHash)"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Config SHA256: $($second.ConfigHash)"
+          Add-Content $env:GITHUB_STEP_SUMMARY "- Reproducibility check: **PASS**"
+
+      - name: Generate build provenance attestations
+        uses: actions/attest@v4
+        with:
+          subject-path: |
+            src/MasterSecurityReviewLauncher/MasterSecurityReviewLauncher/bin/Release/MasterSecurityReviewLauncher.exe
+            src/MasterSecurityReviewLauncher/MasterSecurityReviewLauncher/bin/Release/MasterSecurityReviewLauncher.exe.config
+
+      - name: Upload attested build outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: master-security-review-attested-build
+          path: |
+            src/MasterSecurityReviewLauncher/MasterSecurityReviewLauncher/bin/Release/MasterSecurityReviewLauncher.exe
+            src/MasterSecurityReviewLauncher/MasterSecurityReviewLauncher/bin/Release/MasterSecurityReviewLauncher.exe.config
+          if-no-files-found: error
+
+      - name: Confirm tracked tree remains clean
+        shell: pwsh
+        run: |
+          $changes = git status --porcelain
+          if ($changes) {
+            Write-Host $changes
+            throw "Build modified tracked files or produced unexpectedly tracked output."
+          }
