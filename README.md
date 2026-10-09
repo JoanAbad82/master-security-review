@@ -1,6 +1,7 @@
 # Master Security Review
 
 [![Build](https://github.com/JoanAbad82/master-security-review/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/JoanAbad82/master-security-review/actions/workflows/build.yml)
+[![Attested build](https://github.com/JoanAbad82/master-security-review/actions/workflows/attested-build.yml/badge.svg?branch=main)](https://github.com/JoanAbad82/master-security-review/actions/workflows/attested-build.yml)
 
 ### Quick Windows Audit Tool
 
@@ -129,6 +130,19 @@ certutil -hashfile <downloaded-file.exe> SHA256
 ```
 
 Always compare the resulting hash with the value published in the official release notes.
+
+## Build provenance attestations
+
+The repository also produces a reproducible main-branch build through `.github/workflows/attested-build.yml`. That workflow builds the launcher twice, requires matching SHA256 values, and creates GitHub artifact attestations for the resulting EXE and config using Sigstore-backed provenance.
+
+A downloaded workflow artifact can be verified with GitHub CLI:
+
+```powershell
+gh attestation verify MasterSecurityReviewLauncher.exe --repo JoanAbad82/master-security-review
+gh attestation verify MasterSecurityReviewLauncher.exe.config --repo JoanAbad82/master-security-review
+```
+
+These attestations apply to artifacts produced by the attested-build workflow. They do **not** retroactively attest the separately published v1.0.0 ZIP.
 
 ## System and execution notes
 
